@@ -1,7 +1,5 @@
 const express = require("express");
-const { execSync } = require("child_process");
-execSync("sudo apt install poppler-data");
-execSync("sudo apt install poppler-utils");
+
 const app = express();
 app.use(express.json());
 
