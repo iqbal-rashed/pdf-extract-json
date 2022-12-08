@@ -14,7 +14,7 @@ const BIN_PATH = path.join(__dirname, "../binary/bin", "/");
 class ExtractPdf {
     constructor(buffer) {
         this.buffer = buffer;
-        this.poppler = new Poppler(BIN_PATH);
+        this.poppler = new Poppler("./usr/bin");
     }
 
     async extractImages() {
