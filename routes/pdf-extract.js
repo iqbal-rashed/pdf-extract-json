@@ -27,6 +27,7 @@ router.post("/pdf-extract", upload.single("pdf"), async (req, res) => {
             // },
         });
     } catch (err) {
+        console.log(err);
         res.status(err.status || 500).send(
             err.message || "Something went wrong!"
         );

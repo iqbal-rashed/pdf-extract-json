@@ -18,21 +18,29 @@ class TextToJson {
             maritial: this.getText(/Marital\s*(\w+)/i),
             Occupation: this.getText(/occupation\s*(\W+)/i),
             birth_place: this.getText(/Birth Place\s*(\W+)/i),
-            birth_registration: this.getText(/Birth Registration No\s*(\w+)/i),
+            birth_registration: this.getText(
+                /Birth Registration (No|.)\s*(\d+)/i
+            ),
             date_of_birth: this.getText(/Date of Birth\s(.*?)Birth Place/i),
             blood_group: this.getText(/Blood Group\s(.*?)TIN/i),
-            mobile:
-                this.getText(/Phone\s(.*?)Mobile/i) ||
-                /Mobile(.[ ]*)([0-9]*?)(.[ ]*)Religion/i
-                    .exec(this.text)[2]
-                    .trim(),
+            mobile: this.getMobileNo(),
             religion: this.getText(/Religion\s((.|\n)*?)Religion Other/i),
             voter_area: this.getText(/Voter Area\s([^.]*?)Voter At/i),
             voter_at: this.getText(/Voter At\s(.*)/i),
         };
     }
     getText(pattern) {
-        return pattern.exec(this.text)[1].trim().replace("ু ", "ু");
+        const arr = pattern.exec(this.text);
+        const text = Array.isArray(arr) ? arr[1] : arr;
+        return text ? text.trim().replace("ু ", "ু") : "";
+    }
+
+    getMobileNo() {
+        const phone = this.getText(/Phone\s(.*?)Mobile/i);
+        let mobile = /Mobile(.[ ]*)([0-9]*?)(.[ ]*)Religion/i.exec(this.text);
+        mobile = Array.isArray(mobile) ? mobile[2].trim() : "";
+        const number = phone || mobile;
+        return number;
     }
 }
 

@@ -3,16 +3,28 @@ const pdfjs = require("pdfjs-dist/legacy/build/pdf.js");
 const sharp = require("sharp");
 const { OPS } = pdfjs;
 const path = require("path");
+const os = require("os");
+const { spawn, spawnSync } = require("child_process");
+const { promisify } = require("util");
+const fs = require("fs");
+const fsAsync = require("fs/promises");
+
+const spawnAsync = promisify(spawn);
 
 pdfjs.GlobalWorkerOptions.workerSrc = path.join(
     __dirname,
     "../node_modules/pdfjs-dist/legacy/build/pdf.worker.js"
 );
 
+const BIN_PATH = path.join(__dirname, "../bin/linux/pdftotext");
+
 class ExtractPdf {
     constructor(buffer) {
         this.buffer = buffer;
-        this.poppler = new Poppler();
+        this.bin_path = BIN_PATH;
+        this.file_path = path.join(__dirname, "../temp", "temp.pdf");
+        this.text_file = path.join(__dirname, "../temp", "text.txt");
+        fs.writeFileSync(this.file_path, buffer);
     }
 
     async extractImages() {
@@ -49,7 +61,17 @@ class ExtractPdf {
     }
 
     async extractText() {
-        return await this.poppler.pdfToText(this.buffer);
+        await spawnSync(this.bin_path, [
+            "-enc",
+            "UTF-8",
+            "-simple2",
+            this.file_path,
+            this.text_file,
+        ]);
+        const text = await fsAsync.readFile(this.text_file, {
+            encoding: "utf-8",
+        });
+        return text;
     }
 }
 
