@@ -9,7 +9,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = path.join(
     "../node_modules/pdfjs-dist/legacy/build/pdf.worker.js"
 );
 
-const BIN_PATH = path.join(__dirname, "../bin", "/");
+const BIN_PATH = path.join(__dirname, "../binary/bin", "/");
 
 class ExtractPdf {
     constructor(buffer) {
