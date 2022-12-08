@@ -9,12 +9,12 @@ pdfjs.GlobalWorkerOptions.workerSrc = path.join(
     "../node_modules/pdfjs-dist/legacy/build/pdf.worker.js"
 );
 
-const BIN_PATH = path.join(__dirname, "../binary/bin", "/");
+const BIN_PATH = path.join(__dirname, "../bin", "/");
 
 class ExtractPdf {
     constructor(buffer) {
         this.buffer = buffer;
-        this.poppler = new Poppler("./usr/bin");
+        this.poppler = new Poppler(BIN_PATH);
     }
 
     async extractImages() {
