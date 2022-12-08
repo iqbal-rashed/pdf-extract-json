@@ -4,6 +4,11 @@ const sharp = require("sharp");
 const { OPS } = pdfjs;
 const path = require("path");
 
+pdfjs.GlobalWorkerOptions.workerSrc = path.join(
+    __dirname,
+    "../node_modules/pdfjs-dist/legacy/build/pdf.worker.js"
+);
+
 const BIN_PATH = path.join(__dirname, "../bin", "/");
 
 class ExtractPdf {
