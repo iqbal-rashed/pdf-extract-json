@@ -2,11 +2,14 @@ const { Poppler } = require("node-poppler");
 const pdfjs = require("pdfjs-dist/legacy/build/pdf.js");
 const sharp = require("sharp");
 const { OPS } = pdfjs;
+const path = require("path");
+
+const BIN_PATH = path.join(__dirname, "../bin", "/");
 
 class ExtractPdf {
     constructor(buffer) {
         this.buffer = buffer;
-        this.poppler = new Poppler();
+        this.poppler = new Poppler(BIN_PATH);
     }
 
     async extractImages() {

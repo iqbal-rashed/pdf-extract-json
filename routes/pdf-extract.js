@@ -21,10 +21,10 @@ router.post("/pdf-extract", upload.single("pdf"), async (req, res) => {
 
         res.status(200).send({
             ...details,
-            images: {
-                profile: images[0],
-                signature: images[1],
-            },
+            // images: {
+            //     profile: images[0],
+            //     signature: images[1],
+            // },
         });
     } catch (err) {
         res.status(err.status || 500).send(
